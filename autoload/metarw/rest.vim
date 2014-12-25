@@ -77,10 +77,26 @@ function! s:read_content(_)
   endif
   call setline(2, split(iconv(result.content, 'utf-8', &encoding), "\n"))
   if get(a:_.apiprop, 'dofmt', 0)
-    " setl fenc=utf-8 " XXX: jq stops at EUC-JP chars
+    setl fenc=utf-8 " XXX: jq stops at EUC-JP chars
     execute '2,$!' . g:metarw_rest_fmtcmd
   endif
+  let b:rest_metadata = a:_
+  command! -buffer RestDelete call s:delete_resource()
   return ['done', '']
+endfunction
+
+function! s:delete_resource()
+  if !exists('b:rest_metadata')
+    echoerr 'Current buffer is not REST resource'
+    return
+  endif
+  let result = webapi#http#post(b:rest_metadata.path, {}, {}, 'DELETE')
+  if result.status == 200
+    setlocal readonly
+    echomsg 'Deleted.'
+  else
+    echoerr 'Failed to deleted.'
+  endif
 endfunction
 
 function! s:read_list(_)
@@ -105,7 +121,8 @@ function! s:write_new(_, content)
   let result = webapi#http#post(a:_.path, a:content, {
     \ 'Content-Type': 'application/json;charset=utf-8'
   \ })
-  if result.status != 201
+  " some API returns 200
+  if result.status != 201 && result.status != 200
     return ['error', printf('%d %s: %s', result.status, result.message, a:_.path)]
   endif
   return ['done', '']

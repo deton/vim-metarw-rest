@@ -82,6 +82,7 @@ function! s:read_content(_)
   endif
   let b:rest_metadata = a:_
   command! -buffer RestDelete call s:delete_resource()
+  command! -buffer RestCreate call s:create_resource()
   return ['done', '']
 endfunction
 
@@ -96,6 +97,22 @@ function! s:delete_resource()
     echomsg 'Deleted.'
   else
     echoerr 'Failed to deleted.'
+  endif
+endfunction
+
+function! s:create_resource()
+  if !exists('b:rest_metadata')
+    echoerr 'Current buffer is not REST resource'
+    return
+  endif
+  let content = iconv(join(getline(1, '$'), "\n"), &encoding, 'utf-8')
+  let _ = copy(b:rest_metadata)
+  let _.path = substitute(_.path, '/[^/]\+$', '/', '')
+  let result = s:write_new(_, content)
+  if result[0] == 'done'
+    echomsg 'Created.'
+  else
+    echoerr 'Failed to create: ' . result[1]
   endif
 endfunction
 

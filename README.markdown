@@ -1,8 +1,8 @@
 # vim-metarw-rest: REST API用vim-metarwプラグイン
 
-REST APIをvim-metarwでアクセスするためのプラグインです。
+REST APIをvim-metarwで読み書きするためのプラグインです。
 
-仕事でREST APIを作った際に、
+システムの内部サービス(マイクロサービス)のREST APIを作る際に、
 リソースを簡単にVimから編集したい場面がよくあるので。
 
 `:Edit`等のコマンドの引数として、`rest:`の後にリソースのURLを指定して使います。
@@ -17,7 +17,7 @@ REST APIをvim-metarwでアクセスするためのプラグインです。
 * webapi-vim
 * curlもしくはwget
 
-## リソースの一覧取得
+## リソースの一覧取得(GET)
 `:Edit`コマンドの引数の最後が/で終わっている場合は、
 GETした結果をリソースのリストとみなして一覧表示します。
 
@@ -91,3 +91,5 @@ BASIC認証のみ対応。URL中で指定。`:Edit rest:http://user:password@loc
 
 ## 参考
 * [Big Sky :: モテる Vim 使いに読み書き出来ないファイルなどなかったんだよ!](http://mattn.kaoriya.net/software/vim/20121204090702.htm)
+* Vimデフォルトで利用可能な[netrw](http://vim-jp.org/vimdoc-ja/pi_netrw.html#netrw-externapp)。
+  HTTP GETやPUTは可能。`:e http://localhost:8080/countries/FR`

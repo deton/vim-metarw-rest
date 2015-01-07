@@ -25,11 +25,14 @@ GETした結果をリソースのリストとみなして一覧表示します�
 ('labelkey'のデフォルト値は'id')
 
 例:
+
 1. `:Edit rest:http://localhost:8080/countries/`
 2. レスポンスJSON: `[{'Code': 'FR', 'Name': 'France'},{'Code': 'US', 'Name': 'United States'}]`
 3. 一覧表示
-        FR
-        US
+```
+FR
+US
+```
 
 ## リソースの取得(GET)
 一覧表示上で対象のリソースを`<CR>`等で選択するとGETして開きます。

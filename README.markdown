@@ -3,11 +3,11 @@
 REST APIをvim-metarwで読み書きするためのプラグインです。
 
 システムの内部サービス(マイクロサービス)のREST APIを作る際に、
-リソースを簡単にVimから編集したい場面がよくあるので。
+リソースをVimから編集したい場面がよくあるので。
 
-`:Edit`等のコマンドの引数として、`rest:`の後にリソースのURLを指定して使います。
+`:e`等のコマンドの引数として、`rest:`の後にリソースのURLを指定して使います。
 
-例: `:Edit rest:http://localhost:8080/countries/`
+例: `:e rest:http://localhost:8080/countries/`
 
 リクエスト・レスポンスボディはJSON形式のみ対応。
 
@@ -18,7 +18,7 @@ REST APIをvim-metarwで読み書きするためのプラグインです。
 * curlもしくはwget
 
 ## リソースの一覧取得(GET)
-`:Edit`コマンドの引数の最後が/で終わっている場合は、
+`:e`コマンドの引数の最後が/で終わっている場合は、
 GETした結果をリソースのリストとみなして一覧表示します。
 
 このとき、'labelkey'で指定されたプロパティの値を一覧に表示します。
@@ -26,7 +26,7 @@ GETした結果をリソースのリストとみなして一覧表示します�
 
 例:
 
-1. `:Edit rest:http://localhost:8080/countries/`
+1. `:e rest:http://localhost:8080/countries/`
 2. レスポンスJSON: `[{'Code': 'FR', 'Name': 'France'},{'Code': 'US', 'Name': 'United States'}]`
 3. 一覧表示
 ```
@@ -49,12 +49,12 @@ US
 ```
 
 ## リソースの更新(PUT)
-リソースの取得で開いたバッファで`:Write`すると、PUTしてリソースを更新します。
+リソースの取得で開いたバッファで`:w`すると、PUTしてリソースを更新します。
 
 ## リソースの作成(POST)
-`:Write`で最後が/で終わっているURLを指定すると、POSTしてリソースを作成します。
+`:w`で最後が/で終わっているURLを指定すると、POSTしてリソースを作成します。
 
-例: FRを編集して、`:Write rest:http://localhost:8080/countries/`
+例: FRを編集して、`:w rest:http://localhost:8080/countries/`
 
 ```
 {
@@ -71,26 +71,36 @@ US
 リソースを削除する場合は、対象のリソースを開いているバッファで、
 `:RestDelete`コマンドを実行してください。
 
-## 設定
+## オプション
+### g:metarw_rest_apiprops
+labelkeyやidkeyとして、デフォルトの'id'以外を使いたい場合向けの設定。
+デフォルトは空。
 
+設定例:
 ```
 let g:metarw_rest_apiprops = [
   \ {'pat': '/countries', 'labelkey': 'Code', 'idkey': 'Code', 'dofmt': 1},
 \ ]
-call metarw#define_wrapper_commands(1)
 ```
 
-+ pat: rest:以降の文字列に対してマッチさせるパターン
-+ labelkey: リスト表示に使うキー名
-+ idkey: REST URL中でリソース指定に使うキー名
-+ dofmt: レスポンスをg:metarw_rest_fmtcmdで整形する場合は1
++ pat: rest:以降の文字列に対してマッチさせるパターン。
+  APIごとに異なるlabelkeyやidkeyを設定したい場合向け。
+  g:metarw_rest_apiprops配列内で、最初にマッチしたパターンのみを使用します。
++ labelkey: リスト表示に使うキー名。デフォルトは'id'
++ idkey: REST URL中でリソース指定に使うキー名。デフォルトは'id'
++ dofmt: レスポンスをg:metarw_rest_fmtcmdで整形する場合は1。
+  手で毎回`:%!jq .`するかわりに自動で整形したい場合用。
+
+### g:metarw_rest_fmtcmd
+g:metarw_rest_apipropsでdofmtを1に設定した場合に使用する、JSON整形コマンド。
+デフォルトは'jq .'
 
 ```
 let g:metarw_rest_fmtcmd = 'jq .'
 ```
 
 ## HTTP認証
-BASIC認証のみ対応。URL中で指定。`:Edit rest:http://user:password@localhost:8080/users/`
+BASIC認証のみ対応。URL中で指定。`:e rest:http://user:password@localhost:8080/users/`
 
 ## 参考
 * [Big Sky :: モテる Vim 使いに読み書き出来ないファイルなどなかったんだよ!](http://mattn.kaoriya.net/software/vim/20121204090702.htm)

@@ -17,48 +17,54 @@ REST APIをvim-metarwで読み書きするためのプラグインです。
 * webapi-vim
 * curlもしくはwget
 
-## リソースの一覧取得(GET)
+## 読み書き操作
+### リソースの一覧取得(GET)
 `:e`コマンドの引数の最後が/で終わっている場合は、
 GETした結果をリソースのリストとみなして一覧表示します。
 
-このとき、'labelkey'で指定されたプロパティの値を一覧に表示します。
-('labelkey'のデフォルト値は'id')
+一覧に表示する文字列は、JSON内のidプロパティの値です
+(idプロパティ以外のプロパティの値を表示したい場合は、
+'g:metarw_rest_apiprops'オプションのlabelkeyに、
+一覧表示に使用するプロパティ名を設定してください)。
 
 例:
 
 1. `:e rest:http://localhost:8080/countries/`
-2. レスポンスJSON: `[{'Code': 'FR', 'Name': 'France'},{'Code': 'US', 'Name': 'United States'}]`
+2. レスポンスJSON: `[{'id': 'FR', 'Name': 'France'},{'id': 'US', 'Name': 'United States'}]`
 3. 一覧表示
 ```
 FR
 US
 ```
 
-## リソースの取得(GET)
+### リソースの取得(GET)
 一覧表示上で対象のリソースを`<CR>`等で選択するとGETして開きます。
-このとき、/の後に、'idkey'で指定されたプロパティの値を付けたURLを開きます。
-('idkey'のデフォルト値は'id')
+
+このとき、/の後に、選択されたリソースのidプロパティの値を付けたURLを開きます。
+(idプロパティ以外のプロパティの値を使いたい場合は、
+'g:metarw_rest_apiprops'オプションのidkeyに、
+使用するプロパティ名を設定してください)。
 
 例: FRを選択した場合、`rest:http://localhost:8080/countries/FR`
 
 ```
 {
-  'Code': 'FR',
+  'id': 'FR',
   'Name': 'France'
 }
 ```
 
-## リソースの更新(PUT)
+### リソースの更新(PUT)
 リソースの取得で開いたバッファで`:w`すると、PUTしてリソースを更新します。
 
-## リソースの作成(POST)
+### リソースの作成(POST)
 `:w`で最後が/で終わっているURLを指定すると、POSTしてリソースを作成します。
 
 例: FRを編集して、`:w rest:http://localhost:8080/countries/`
 
 ```
 {
-  'Code': 'JP',
+  'id': 'JP',
   'Name': 'Japan'
 }
 ```
@@ -67,7 +73,7 @@ US
 `:RestCreate`コマンドを実行すると、
 該当リソースのURLの末尾を削って、/で終わるURLにPOSTします。
 
-## リソースの削除(DELETE)
+### リソースの削除(DELETE)
 リソースを削除する場合は、対象のリソースを開いているバッファで、
 `:RestDelete`コマンドを実行してください。
 
@@ -79,7 +85,7 @@ labelkeyやidkeyとして、デフォルトの'id'以外を使いたい場合向
 設定例:
 ```
 let g:metarw_rest_apiprops = [
-  \ {'pat': '/countries', 'labelkey': 'Code', 'idkey': 'Code', 'dofmt': 1},
+  \ {'pat': '/countries', 'labelkey': 'Name', 'idkey': 'id', 'dofmt': 1},
 \ ]
 ```
 

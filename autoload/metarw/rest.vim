@@ -2,7 +2,7 @@
 " metarw scheme: rest
 "
 " Maintainer: KIHARA Hideto <deton@m1.interq.or.jp>
-" Last Change: 2015-01-05
+" Last Change: 2015-01-11
 " License: MIT license  {{{
 "     Copyright (C) 2015 KIHARA, Hideto
 "
@@ -26,8 +26,8 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 
-if !exists('g:metarw_rest_fmtcmd')
-  let g:metarw_rest_fmtcmd = 'jq .'
+if !exists('g:metarw_rest_fmtprg')
+  let g:metarw_rest_fmtprg = 'jq .'
 endif
 
 " let g:metarw_rest_apiprops = [
@@ -104,7 +104,7 @@ function! s:read_content(_)
   call setline(2, split(iconv(result.content, 'utf-8', &encoding), "\n"))
   if get(a:_.apiprop, 'dofmt', 0)
     setl fenc=utf-8 " XXX: jq stops at EUC-JP chars
-    execute '2,$!' . g:metarw_rest_fmtcmd
+    execute '2,$!' . g:metarw_rest_fmtprg
   endif
   let b:rest_metadata = a:_
   command! -buffer RestDelete call s:delete_resource()

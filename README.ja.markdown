@@ -94,15 +94,16 @@ let g:metarw_rest_apiprops = [
   g:metarw_rest_apiprops配列内で、最初にマッチしたパターンのみを使用します。
 + labelkey: リスト表示に使うキー名。デフォルトは'id'
 + idkey: REST URL中でリソース指定に使うキー名。デフォルトは'id'
-+ dofmt: レスポンスをg:metarw_rest_fmtcmdで整形する場合は1。
++ dofmt: レスポンスをg:metarw_rest_fmtprgで整形する場合は1。
   手で毎回`:%!jq .`するかわりに自動で整形したい場合用。
 
-### g:metarw_rest_fmtcmd
-g:metarw_rest_apipropsでdofmtを1に設定した場合に使用する、JSON整形コマンド。
+### g:metarw_rest_fmtprg
+g:metarw_rest_apipropsでdofmtを1に設定した場合に使用する、
+JSON整形を行う外部プログラム。
 デフォルトは'jq .'
 
 ```
-let g:metarw_rest_fmtcmd = 'jq .'
+let g:metarw_rest_fmtprg = 'jq .'
 ```
 
 ## HTTP認証

@@ -14,8 +14,8 @@ vim-metarw-restは、REST APIを[vim-metarw](https://github.com/kana/vim-metarw)
 
 ## 必要なもの
 
-* vim-metarw
-* webapi-vim
+* [vim-metarw](https://github.com/kana/vim-metarw)
+* [webapi-vim](https://github.com/mattn/webapi-vim)
 * curlもしくはwget
 
 ## 読み書き操作

@@ -5,8 +5,8 @@ to read/write resources using REST API.
 
 ## Requirements
 
-* vim-metarw
-* webapi-vim
+* [vim-metarw](https://github.com/kana/vim-metarw)
+* [webapi-vim](https://github.com/mattn/webapi-vim)
 * curl
 
 ## Usage

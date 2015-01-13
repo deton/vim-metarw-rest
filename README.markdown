@@ -1,6 +1,7 @@
 # vim-metarw-rest: vim-metarw scheme script for REST API
 
-vim-metarw scheme script to read/write resources using REST API.
+vim-metarw-rest is a [vim-metarw](https://github.com/kana/vim-metarw) scheme script
+to read/write resources using REST API.
 
 ## Requirements
 

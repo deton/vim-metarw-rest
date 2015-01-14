@@ -4,7 +4,7 @@ vim-metarw-restは、REST APIを[vim-metarw](https://github.com/kana/vim-metarw)
 読み書きするためのプラグインです。
 
 システムの内部サービス(マイクロサービス)のREST APIを作る際に、
-リソースをVimから編集したい場面がよくあるので。
+RESTリソースをVimから編集したい場面がよくあるので。
 
 `:e`等のコマンドの引数として、`rest:`の後にリソースのURLを指定して使います。
 

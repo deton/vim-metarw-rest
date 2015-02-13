@@ -2,7 +2,7 @@
 " metarw scheme: rest
 "
 " Maintainer: KIHARA Hideto <deton@m1.interq.or.jp>
-" Last Change: 2015-01-11
+" Last Change: 2015-02-13
 " License: MIT license  {{{
 "     Copyright (C) 2015 KIHARA, Hideto
 "
@@ -107,8 +107,8 @@ function! s:read_content(_)
     execute '2,$!' . g:metarw_rest_fmtprg
   endif
   let b:rest_metadata = a:_
-  command! -buffer RestDelete call s:delete_resource()
-  command! -buffer RestCreate call s:create_resource()
+  command! -buffer -bar RestDelete call s:delete_resource()
+  command! -buffer -bar RestCreate call s:create_resource()
   return ['done', '']
 endfunction
 
